@@ -5,6 +5,18 @@ import auth from './firebase.init';
 
 const TodoForm = ({ refetch }) => {
     const [user] = useAuthState(auth)
+    const date = new Date();
+    let day = date.getDate();
+    if (day < 10) {
+        day = '0' + day;
+    }
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
+    const year = date.getFullYear();
+    const inputDay = (`${year}-${month}-${day}`);
+
 
     const formOnSubmit = e => {
         e.preventDefault()
@@ -14,7 +26,7 @@ const TodoForm = ({ refetch }) => {
         fetch('https://dailytaskbyabusayeed.herokuapp.com/todos', {
             method: 'POST',
             body: JSON.stringify({
-                todo, email
+                todo, email, inputDay
             }),
             headers: {
                 'Content-type': 'application/json',

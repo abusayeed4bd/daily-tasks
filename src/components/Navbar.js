@@ -13,7 +13,8 @@ const Navbar = () => {
     const menuItem = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/complete">Complated task</Link></li>
-        <li><Link to="/">About</Link></li>
+        <li><Link to="/date">Datewise tasks</Link></li>
+        <li><Link to="/about">About</Link></li>
 
     </>
     return (
@@ -30,7 +31,7 @@ const Navbar = () => {
                             {menuItem}
                         </ul>
                     </div>
-                    <a class="btn btn-ghost normal-case text-xl">Daily Tasks</a>
+                    <Link to='/' class="btn btn-ghost  text-xl uppercase font-bold text-white">Daily Tasks</Link>
                 </div>
                 <div class="navbar-center hidden lg:flex">
                     <ul class="menu menu-horizontal p-0 text-white ">
