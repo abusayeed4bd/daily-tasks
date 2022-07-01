@@ -1,6 +1,12 @@
 import React from 'react';
+import auth from './firebase.init'
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 
 const Login = () => {
+    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const handleGoogleSignin = () => {
+        signInWithGoogle()
+    }
     return (
         <div>
             <div className=''>
@@ -29,6 +35,7 @@ const Login = () => {
                         <div class="form-control mt-6">
                             <button class="btn btn-primary">Login</button>
                         </div>
+                        <button onClick={handleGoogleSignin} className='btn btn-primary btn-outline w-full'>Login with google</button>
                     </div>
                 </div>
             </div>
