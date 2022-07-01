@@ -1,6 +1,15 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom'
-const navbar = () => {
+import auth from './firebase.init';
+
+const Navbar = () => {
+    const [user] = useAuthState(auth)
+
+    const logOut = () => {
+        signOut(auth)
+    }
     const menuItem = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/">Complated task</Link></li>
@@ -24,16 +33,17 @@ const navbar = () => {
                     <a class="btn btn-ghost normal-case text-xl">Daily Tasks</a>
                 </div>
                 <div class="navbar-center hidden lg:flex">
-                    <ul class="menu menu-horizontal p-0 text-white">
+                    <ul class="menu menu-horizontal p-0 text-white ">
                         {menuItem}
                     </ul>
                 </div>
+
                 <div class="navbar-end">
-                    <a class="btn">Get started</a>
+                    {user ? <button onClick={logOut} class="btn">SignOut</button> : <button className='btn'>Explore more</button>}
                 </div>
             </div>
         </div>
     );
 };
 
-export default navbar;
+export default Navbar;

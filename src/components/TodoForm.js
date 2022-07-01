@@ -1,16 +1,20 @@
 
 import React, { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from './firebase.init';
 
 const TodoForm = ({ refetch }) => {
+    const [user] = useAuthState(auth)
 
     const formOnSubmit = e => {
         e.preventDefault()
         const todo = e.target.input.value;
+        const email = user.email;
 
-        fetch('http://localhost:5000/todos', {
+        fetch('https://dailytaskbyabusayeed.herokuapp.com/todos', {
             method: 'POST',
             body: JSON.stringify({
-                todo
+                todo, email
             }),
             headers: {
                 'Content-type': 'application/json',

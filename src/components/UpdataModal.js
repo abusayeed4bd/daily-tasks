@@ -5,7 +5,7 @@ const UpdataModal = ({ todo }) => {
     console.log(todo.todo)
     const handleUpdate = (e, id) => {
         e.preventDefault()
-        fetch(`http://localhost:5000/todos/${id}`, {
+        fetch(`https://dailytaskbyabusayeed.herokuapp.com/todos/${id}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",

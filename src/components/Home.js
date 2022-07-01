@@ -2,22 +2,28 @@ import React from 'react';
 
 import TodoForm from './TodoForm';
 import TodoLists from './TodoLists';
-import {
-    useQuery,
-
-} from 'react-query'
+import { useQuery } from 'react-query'
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from './firebase.init';
 
 const Home = () => {
-    const { data: todos, isLoading, refetch } = useQuery('todos', () => fetch('http://localhost:5000/todos').then(res => res.json()))
+    const [user] = useAuthState(auth)
+    const email = user?.email;
+    const { data: todos, isLoading, refetch } = useQuery('todos', () => fetch(`https://dailytaskbyabusayeed.herokuapp.com/todos`).then(res => res.json()))
+
+    if (isLoading) {
+        return <p>Loading...</p>
+    }
+    const myTodos = todos.filter((todo) => user.email === todo.email)
 
 
     return (
-        <div className='my-5'>
+        <div className='my-5 min-h-screen'>
             <h2 className="tex-primary text-5xl font-bold uppercase text-center">
                 Daily Tasks
             </h2>
             <TodoForm refetch={refetch}></TodoForm>
-            <TodoLists todos={todos} isLoading={isLoading} refetch={refetch} ></TodoLists>
+            <TodoLists todos={myTodos} isLoading={isLoading} refetch={refetch} ></TodoLists>
 
         </div>
     );
