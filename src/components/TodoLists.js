@@ -1,25 +1,58 @@
-import React, { useEffect } from 'react';
-import UpdataModal from './UpdataModal';
+
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 
 const TodoLists = ({ todos, isLoading, refetch }) => {
     const navigate = useNavigate()
-    if (isLoading) {
-        return <p>loadig...</p>
-    }
+    // if (isLoading) {
+    //     return <p>loadig...</p>
+    // }
+    const MySwal = withReactContent(Swal);
     const handleDelete = (id) => {
-        fetch(`https://dailytaskbyabusayeed.herokuapp.com/todos/${id}`, {
-            method: 'DELETE',
-            header: {
-                "content-type": "application/json",
+
+        MySwal.fire({
+            title: <strong>Are You Sure?</strong>,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            icon: 'warning'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`https://dailytaskbyabusayeed.herokuapp.com/todos/${id}`, {
+                    method: 'DELETE',
+                    header: {
+                        "content-type": "application/json",
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.acknowledged) {
+                            refetch();
+                            Swal.fire('Successfully Deleted!', '', 'success');
+                        } else {
+                            Swal.fire('Failed to Delete!', '', 'error');
+                        }
+                    })
             }
         })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                refetch()
-            })
+
+
+
+        // delete end
+
+
+        // fetch(`https://dailytaskbyabusayeed.herokuapp.com/todos/${id}`, {
+        //     method: 'DELETE',
+        //     header: {
+        //         "content-type": "application/json",
+        //     }
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         refetch()
+        //     })
     }
 
     const handleComplate = (id) => {
@@ -30,12 +63,15 @@ const TodoLists = ({ todos, isLoading, refetch }) => {
             }
         })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data)
+                refetch()
+            })
     }
 
     return (
         <div>
-            {todos?.map(todo => <div className='lg:w-1/2 p-3 mx-4 lg:mx-auto bg-primary my-2 rounded-lg text-white flex justify-between items-center'>
+            {todos?.map(todo => <>{todo.complate || <div className='lg:w-1/2 p-3 mx-4 lg:mx-auto bg-primary my-2 rounded-lg text-white flex justify-between items-center'>
 
                 <button onClick={() => handleComplate(todo?._id)} className=''>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -51,7 +87,7 @@ const TodoLists = ({ todos, isLoading, refetch }) => {
                     </svg></button>
                     <button onClick={() => handleDelete(todo?._id)} className='btn btn-sm btn-danger'>Delete</button>
 
-                </div></div>)}
+                </div></div>}</>)}
 
         </div>
     );

@@ -8,6 +8,7 @@ import Register from './components/Register';
 import Footer from './components/Footer';
 import RequireAuth from './components/RequireAuth';
 import UpdataTodo from './UpdataTodo';
+import Completed from './components/Completed';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/login' element={<Login></Login>}></Route>
         <Route path='/register' element={<Register></Register>}></Route>
         <Route path="/todos/:id" element={<UpdataTodo></UpdataTodo>}></Route>
+        <Route path="/complete" element={<Completed></Completed>}></Route>
       </Routes>
       <Footer></Footer>
     </div>

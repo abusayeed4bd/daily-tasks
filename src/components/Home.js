@@ -5,6 +5,7 @@ import TodoLists from './TodoLists';
 import { useQuery } from 'react-query'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from './firebase.init';
+import Loading from './Loading';
 
 const Home = () => {
     const [user] = useAuthState(auth)
@@ -12,9 +13,9 @@ const Home = () => {
     const { data: todos, isLoading, refetch } = useQuery('todos', () => fetch(`https://dailytaskbyabusayeed.herokuapp.com/todos`).then(res => res.json()))
 
     if (isLoading) {
-        return <p>Loading...</p>
+        return <Loading></Loading>
     }
-    const myTodos = todos.filter((todo) => user.email === todo.email)
+    const myTodos = todos.filter((todo) => user?.email === todo.email)
 
 
     return (
