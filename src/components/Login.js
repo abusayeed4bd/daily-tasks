@@ -2,6 +2,7 @@ import React from 'react';
 import auth from './firebase.init'
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
+import background from '../image/background.jpg'
 
 const Login = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
@@ -21,7 +22,7 @@ const Login = () => {
 
     return (
         <div>
-            <div class="hero min-h-screen">
+            <div style={{ background: `url(${background})` }} class="hero min-h-screen">
                 <div class="hero-overlay bg-opacity-60"></div>
                 <div class="hero-content text-center text-neutral-content">
                     <div class="max-w-md">
